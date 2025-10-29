@@ -1,0 +1,16 @@
+[
+  {
+    "id": "banner-1",
+    "title": "Diskon 50% untuk Produk Fashion!",
+    "image": "/images/banner1.jpg",
+    "link": "/products?category=Fashion",
+    "active": true
+  },
+  {
+    "id": "banner-2",
+    "title": "Belanja Elektronik Hemat!",
+    "image": "/images/banner2.jpg",
+    "link": "/products?category=Elektronik",
+    "active": true
+  }
+]

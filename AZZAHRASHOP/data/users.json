@@ -1,0 +1,35 @@
+[
+  {
+    "id": "admin-1",
+    "username": "admin",
+    "email": "admin@azzahrashop.com",
+    "password": "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "role": "admin",
+    "name": "Administrator",
+    "address": "Jakarta",
+    "phone": "081234567890",
+    "createdAt": "2023-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "seller-1",
+    "username": "seller1",
+    "email": "seller1@azzahrashop.com",
+    "password": "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "role": "seller",
+    "name": "Penjual Satu",
+    "address": "Bandung",
+    "phone": "081234567891",
+    "createdAt": "2023-01-02T00:00:00.000Z"
+  },
+  {
+    "id": "buyer-1",
+    "username": "buyer1",
+    "email": "buyer1@azzahrashop.com",
+    "password": "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "role": "buyer",
+    "name": "Pembeli Satu",
+    "address": "Surabaya",
+    "phone": "081234567892",
+    "createdAt": "2023-01-03T00:00:00.000Z"
+  }
+]

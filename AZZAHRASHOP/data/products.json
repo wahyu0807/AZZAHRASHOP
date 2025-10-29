@@ -1,0 +1,33 @@
+[
+  {
+    "id": "prod-1",
+    "sellerId": "seller-1",
+    "name": "Sepatu Sneakers Pria",
+    "description": "Sepatu sneakers berkualitas tinggi untuk pria, nyaman digunakan sehari-hari.",
+    "price": 250000,
+    "category": "Fashion",
+    "image": "/images/sepatu.jpg",
+    "stock": 50,
+    "reviews": [
+      {
+        "userId": "buyer-1",
+        "rating": 5,
+        "comment": "Sepatu bagus, nyaman dipakai!",
+        "date": "2023-06-01T00:00:00.000Z"
+      }
+    ],
+    "createdAt": "2023-05-01T00:00:00.000Z"
+  },
+  {
+    "id": "prod-2",
+    "sellerId": "seller-1",
+    "name": "Tas Wanita Kulit",
+    "description": "Tas wanita dari kulit asli, elegan dan tahan lama.",
+    "price": 150000,
+    "category": "Fashion",
+    "image": "/images/tas.jpg",
+    "stock": 30,
+    "reviews": [],
+    "createdAt": "2023-05-02T00:00:00.000Z"
+  }
+]

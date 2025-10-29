@@ -1,0 +1,22 @@
+[
+  {
+    "id": "cat-1",
+    "name": "Fashion",
+    "image": "/images/fashion.jpg"
+  },
+  {
+    "id": "cat-2",
+    "name": "Elektronik",
+    "image": "/images/elektronik.jpg"
+  },
+  {
+    "id": "cat-3",
+    "name": "Rumah Tangga",
+    "image": "/images/rumahtangga.jpg"
+  },
+  {
+    "id": "cat-4",
+    "name": "Kesehatan",
+    "image": "/images/kesehatan.jpg"
+  }
+]
