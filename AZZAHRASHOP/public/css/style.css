@@ -1,0 +1,113 @@
+/* Custom styles for AZZAHRASHOP */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #ff5722 !important;
+}
+
+.btn-primary {
+    background-color: #ff5722;
+    border-color: #ff5722;
+}
+
+.btn-primary:hover {
+    background-color: #d84315;
+    border-color: #d84315;
+}
+
+.price {
+    color: #ff5722;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.product-card {
+    transition: transform 0.2s;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.category-card {
+    text-align: center;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+}
+
+.feature-icon {
+    color: #ff5722;
+}
+
+.chat-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.user-message {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.ai-message {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.user-message strong {
+    color: #007bff;
+}
+
+.ai-message strong {
+    color: #28a745;
+}
+
+.alert-info {
+    border-left: 4px solid #17a2b8;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    border-top: none;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.badge {
+    font-size: 0.8em;
+}
+
+@media (max-width: 768px) {
+    .carousel-item img {
+        height: 250px;
+    }
+
+    .product-card .d-flex {
+        flex-direction: column;
+    }
+
+    .product-card .btn {
+        margin-bottom: 5px;
+    }
+}
