@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pembeli - Shopee Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <div class="container">
+            <a class="navbar-brand text-white" href="index.html">Shopee Clone - Pembeli</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link text-white" href="#orders">Pesanan Saya</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#favorites">Favorit</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="#" onclick="logout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Dashboard Pembeli</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h3>Pesanan Saya</h3>
+                    <p>Lihat riwayat pesanan Anda.</p>
+                    <button class="btn btn-success" onclick="showMyOrders()">Lihat Pesanan</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h3>Produk Favorit</h3>
+                    <p>Kelola produk favorit Anda.</p>
+                    <button class="btn btn-success" onclick="showFavorites()">Lihat Favorit</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="contentArea" class="mt-4">
+            <!-- Konten dinamis akan dimuat di sini -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Mock data
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        function showMyOrders() {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '<h2>Riwayat Pesanan</h2>';
+            
+            const myOrders = orders.filter(order => order.buyer === currentUser.username);
+            
+            myOrders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'card mb-3';
+                orderDiv.innerHTML = `
+                    <div class="card-body">
+                        <h5>Pesanan #${order.id}</h5>
+                        <p>Produk: ${order.productName}</p>
+                        <p>Total: Rp ${order.total.toLocaleString()}</p>
+                        <p>Status: ${order.status}</p>
+                        <p>Tanggal: ${order.date}</p>
+                    </div>
+                `;
+                contentArea.appendChild(orderDiv);
+            });
+        }
+        
+        function showFavorites() {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '<h2>Produk Favorit</h2>';
+            
+            const myFavorites = favorites.filter(fav => fav.user === currentUser.username);
+            
+            myFavorites.forEach(fav => {
+                const product = products.find(p => p.id === fav.productId);
+                if (product) {
+                    const favDiv = document.createElement('div');
+                    favDiv.className = 'card mb-3';
+                    favDiv.innerHTML = `
+                        <div class="card-body">
+                            <h5>${product.name}</h5>
+                            <p>Rp ${product.price.toLocaleString()}</p>
+                            <button class="btn btn-danger" onclick="removeFavorite(${fav.productId})">Hapus dari Favorit</button>
+                        </div>
+                    `;
+                    contentArea.appendChild(favDiv);
+                }
+            });
+        }
+        
+        function removeFavorite(productId) {
+            favorites = favorites.filter(fav => !(fav.user === currentUser.username && fav.productId === productId));
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            showFavorites();
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+        
+        // Check if buyer is logged in
+        if (!currentUser || currentUser.type !== 'buyer') {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

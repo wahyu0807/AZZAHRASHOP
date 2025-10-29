@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Penjual - Shopee Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <div class="container">
+            <a class="navbar-brand text-white" href="index.html">Shopee Clone - Penjual</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link text-white" href="#products">Produk Saya</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#orders">Pesanan</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="#" onclick="logout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Dashboard Penjual</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h3>Kelola Produk</h3>
+                    <p>Tambah, edit, hapus produk Anda.</p>
+                    <button class="btn btn-success" onclick="showMyProducts()">Lihat Produk</button>
+                    <button class="btn btn-outline-success" onclick="addProduct()">Tambah Produk</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h3>Pesanan Masuk</h3>
+                    <p>Lihat pesanan dari pembeli.</p>
+                    <button class="btn btn-success" onclick="showMyOrders()">Lihat Pesanan</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="notifications" class="mt-4">
+            <!-- Notifikasi akan dimuat di sini -->
+        </div>
+        
+        <div id="contentArea" class="mt-4">
+            <!-- Konten dinamis akan dimuat di sini -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Mock data
+        let allProducts = JSON.parse(localStorage.getItem('allProducts')) || products;
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        function showMyProducts() {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '<h2>Produk Saya</h2>';
+            
+            const myProducts = allProducts.filter(product => product.seller === currentUser.username);
+            
+            myProducts.forEach((product, index) => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'card mb-3';
+                productDiv.innerHTML = `
+                    <div class="card-body">
+                        <h5>${product.name}</h5>
+                        <p>Rp ${product.price.toLocaleString()}</p>
+                        <button class="btn btn-warning" onclick="editProduct(${allProducts.indexOf(product)})">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteProduct(${allProducts.indexOf(product)})">Hapus</button>
+                    </div>
+                `;
+                contentArea.appendChild(productDiv);
+            });
+        }
+        
+        function addProduct() {
+            const name = prompt('Nama produk:');
+            const price = parseInt(prompt('Harga:'));
+            const category = prompt('Kategori:');
+            if (name && price && category) {
+                const newProduct = {
+                    id: Date.now(),
+                    name,
+                    price,
+                    category,
+                    image: 'https://via.placeholder.com/300x300/28a745/ffffff?text=New+Product',
+                    seller: currentUser.username
+                };
+                allProducts.push(newProduct);
+                localStorage.setItem('allProducts', JSON.stringify(allProducts));
+                showMyProducts();
+                alert('Produk berhasil ditambahkan!');
+            }
+        }
+        
+        function editProduct(index) {
+            const product = allProducts[index];
+            const newName = prompt('Nama baru:', product.name);
+            const newPrice = parseInt(prompt('Harga baru:', product.price));
+            if (newName && newPrice) {
+                allProducts[index].name = newName;
+                allProducts[index].price = newPrice;
+                localStorage.setItem('allProducts', JSON.stringify(allProducts));
+                showMyProducts();
+            }
+        }
+        
+        function deleteProduct(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                allProducts.splice(index, 1);
+                localStorage.setItem('allProducts', JSON.stringify(allProducts));
+                showMyProducts();
+            }
+        }
+        
+        function showMyOrders() {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '<h2>Pesanan Saya</h2>';
+            
+            const myOrders = orders.filter(order => order.seller === currentUser.username);
+            
+            myOrders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'card mb-3';
+                orderDiv.innerHTML = `
+                    <div class="card-body">
+                        <h5>Pesanan #${order.id}</h5>
+                        <p>Pembeli: ${order.buyer}</p>
+                        <p>Produk: ${order.productName}</p>
+                        <p>Total: Rp ${order.total.toLocaleString()}</p>
+                        <p>Status: ${order.status}</p>
+                        <button class="btn btn-success" onclick="updateOrderStatus('${order.id}', 'Dikirim')">Tandai Dikirim</button>
+                    </div>
+                `;
+                contentArea.appendChild(orderDiv);
+            });
+        }
+        
+        function updateOrderStatus(orderId, status) {
+            const orderIndex = orders.findIndex(order => order.id === orderId);
+            if (orderIndex !== -1) {
+                orders[orderIndex].status = status;
+                localStorage.setItem('orders', JSON.stringify(orders));
+                showMyOrders();
+                alert('Status pesanan diperbarui!');
+            }
+        }
+        
+        function loadNotifications() {
+            const notificationsDiv = document.getElementById('notifications');
+            const myOrders = orders.filter(order => order.seller === currentUser.username && order.status === 'Pending');
+            
+            if (myOrders.length > 0) {
+                notificationsDiv.innerHTML = '<h3>Notifikasi</h3>';
+                myOrders.forEach(order => {
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.textContent = `Pesanan baru dari ${order.buyer} untuk ${order.productName}`;
+                    notificationsDiv.appendChild(notification);
+                });
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+        
+        // Check if seller is logged in
+        if (!currentUser || currentUser.type !== 'seller') {
+            window.location.href = 'login.html';
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotifications();
+        });
+    </script>
+</body>
+</html>
